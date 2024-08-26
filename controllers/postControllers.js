@@ -1,4 +1,5 @@
 const fs = require('fs');
+const { GoogleAIFileManager } = require ("@google/generative-ai");
 
 const resend = async (req, res) => {
     const { url, API_key, file_name } = req.body
@@ -57,7 +58,11 @@ const resend = async (req, res) => {
         fs.appendFileSync(`/tmp/${file_name}.${extention}`, file);
         // const data = fs.readFileSync(`/tmp/${file_name}.${extention}`, { encoding: 'utf8', flag: 'r' });
 
-        res.status(200).json({ url:url, API_key: API_key, data: file })
+        const uploadResponse = await fileManager.uploadFile(`/tmp/${file_name}.${extention}`, {
+            mimeType: `${fileType}/`,
+            displayName: `${file_name}.${extention}`,
+        });
+        res.status(200).json({ url: url, API_key: API_key, data: uploadResponse })
 
 
     } catch (error) {
