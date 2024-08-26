@@ -22,7 +22,7 @@ api.use(function (req, res, next) {
     next();
 })
 
-import send from './routes/send';
+import send from './routes/send.js';
 
 //middleware
 api.use(express.json())
