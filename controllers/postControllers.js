@@ -3,7 +3,7 @@ const resend = async (req, res) => {
     const { URL, API_key} = req.body
     try {
 
-        res.status(200).json(post)
+        res.status(200).json(URL)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }

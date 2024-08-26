@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { resend,
+const {
+    resend,
     response
-} = require('../controllers/postsControllers');
+} = require('../controllers/postControllers');
 
 router.get("/url", response);
 
@@ -16,6 +17,5 @@ router.post("/url", resend);
 // router.patch("/posts/", updatePost);
 
 // router.post("/comment/", createComment);
-
 
 module.exports = router;

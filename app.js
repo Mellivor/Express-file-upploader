@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 8000
 
-api.use(function (req, res, next) {
+app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
     // res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8888');
@@ -22,15 +22,16 @@ api.use(function (req, res, next) {
     next();
 })
 
-import send from './routes/send.js';
+// import send from './routes/send.js';
+var send = require('./routes/send');
 
 //middleware
-api.use(express.json())
+app.use(express.json())
 
-api.use("/send/", send);
+app.use("/send/", send);
 
 app.get('/', (req, res) => {
-    res.send('Hello World!')
+    res.send('Hello World!33')
 })
 
 app.listen(port, '0.0.0.0', () => {
