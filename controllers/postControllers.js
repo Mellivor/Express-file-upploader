@@ -1,5 +1,5 @@
 const fs = require('fs');
-const { GoogleAIFileManager } = require ("@google/generative-ai");
+const { GoogleAIFileManager } = require("@google/generative-ai/server");
 
 const resend = async (req, res) => {
     const { url, API_key, file_name } = req.body
