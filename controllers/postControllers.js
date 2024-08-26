@@ -2,8 +2,10 @@
 const resend = async (req, res) => {
     const { URL, API_key} = req.body
     try {
+        setTimeout(() => {
+            res.status(200).json({ URL: URL, API_key: API_key })
+        }, 30000);
 
-        res.status(200).json({ URL: URL, API_key: API_key })
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
