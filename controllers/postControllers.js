@@ -18,7 +18,9 @@ const resend = async (req, res) => {
 
 const response = async (req, res) => {
     try {
-        res.status(200).json("get url")
+        fs.appendFileSync("/tmp/example_file.txt", " - Geeks For Geeks");
+        const data = fs.readFileSync("/tmp/example_file.txt", { encoding: 'utf8', flag: 'r' });
+        res.status(200).json(data)
     } catch (error) {
         res.status(400).json({ error: error.message })
     }
