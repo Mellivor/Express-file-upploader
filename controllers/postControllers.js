@@ -1,14 +1,64 @@
 const fs = require('fs');
 
-
 const resend = async (req, res) => {
-    const { URL, API_key, timeout} = req.body
+    const { URL, API_key, file_name } = req.body
+
+    if (typeof URL !="string") {
+        res.status(400).json({ error: `Wrong URL:${URL}` });
+    };
+
+    if (typeof API_key !="string") {
+        res.status(400).json({ error: `Wrong API_key:${API_key}` });
+    };
+
+    if (typeof file_name !="string") {
+        res.status(400).json({ error: `Wrong file name:${file_name}` });
+    };
+
+    const tempArr = URL.split(".");
+    let extention = tempArr[tempArr.length - 1];
+    const imageAccept = ["png", "jpeg", "webp", "heic", "heif"];
+    const audioAccept = ["wav", "mp3", "aiff", "aac", "ogg", "flac"];
+    const videoAccept = ["mp4", "mpeg", "mov", "avi", "x-flv", "mpg", "webm", "wmv", "3gpp"];
+
+    let fileType;
+    if (extention === "jpg") {
+        extention = "jpeg";
+    };
+    if (imageAccept.includes(extention)) {
+        fileType = "image";
+    };
+    if (extention === "pdf") {
+        fileType = "application";
+    };
+    if (audioAccept.includes(extention)) {
+        fileType = "audio";
+    };
+
+    if (videoAccept.includes(extention)) {
+        fileType = "video";
+    };
+
+    if (!fileType) {
+        res.status(400).json({ error: `"${extention.toUpperCase()}" extention not suported` });
+    };
+
     try {
-        fs.appendFileSync("/tmp/example_file.txt", " - Geeks For Geeks");
-        const data = fs.readFileSync("/tmp/example_file.txt", { encoding: 'utf8', flag: 'r' });
-        setTimeout(() => {
-            res.status(200).json({ URL: URL, API_key: API_key, data: data })
-        }, timeout);
+        const response = await fetch(`https:${properties.url}`);
+
+        if (!response.ok) {
+           const error = response.json();
+           throw new Error(error);
+        };
+
+        const bufferArr = await response.arrayBuffer();
+        const file = Buffer.from(bufferArr);
+
+        fs.appendFileSync(`/tmp/${file_name}.${extention}`, file);
+        // const data = fs.readFileSync(`/tmp/${file_name}.${extention}`, { encoding: 'utf8', flag: 'r' });
+
+        res.status(200).json({ URL: URL, API_key: API_key, data: file })
+
 
     } catch (error) {
         res.status(400).json({ error: error.message })
