@@ -56,7 +56,6 @@ const resend = async (req, res) => {
         const file = Buffer.from(bufferArr);
 
         fs.appendFileSync(`/tmp/${file_name}.${extention}`, file);
-        // const data = fs.readFileSync(`/tmp/${file_name}.${extention}`, { encoding: 'utf8', flag: 'r' });
 
         const fileManager = new GoogleAIFileManager(API_key);
 
@@ -64,7 +63,7 @@ const resend = async (req, res) => {
             mimeType: `${fileType}/`,
             displayName: `${file_name}.${extention}`,
         });
-        res.status(200).json({ url: url, API_key: API_key, data: JSON.stringify(uploadResponse) })
+        res.status(200).json({ uploaded_file: JSON.stringify(uploadResponse) })
 
 
     } catch (error) {
