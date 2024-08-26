@@ -4,7 +4,7 @@ const resend = async (req, res) => {
     const { url, API_key, file_name } = req.body
 
     if (typeof url !="string") {
-        res.status(400).json({ error: `Wrong URL:${URL}` });
+        res.status(400).json({ error: `Wrong url:${url}` });
     };
 
     if (typeof API_key !="string") {
@@ -57,7 +57,7 @@ const resend = async (req, res) => {
         fs.appendFileSync(`/tmp/${file_name}.${extention}`, file);
         // const data = fs.readFileSync(`/tmp/${file_name}.${extention}`, { encoding: 'utf8', flag: 'r' });
 
-        res.status(200).json({ URL: URL, API_key: API_key, data: file })
+        res.status(200).json({ url:url, API_key: API_key, data: file })
 
 
     } catch (error) {
