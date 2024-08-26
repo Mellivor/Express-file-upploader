@@ -44,7 +44,7 @@ const resend = async (req, res) => {
     };
 
     try {
-        const response = await fetch(`https:${properties.url}`);
+        const response = await fetch(`https:${url}`);
 
         if (!response.ok) {
            const error = response.json();
