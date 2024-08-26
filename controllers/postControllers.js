@@ -1,9 +1,9 @@
 const fs = require('fs');
 
 const resend = async (req, res) => {
-    const { URL, API_key, file_name } = req.body
+    const { url, API_key, file_name } = req.body
 
-    if (typeof URL !="string") {
+    if (typeof url !="string") {
         res.status(400).json({ error: `Wrong URL:${URL}` });
     };
 
@@ -15,7 +15,7 @@ const resend = async (req, res) => {
         res.status(400).json({ error: `Wrong file name:${file_name}` });
     };
 
-    const tempArr = URL.split(".");
+    const tempArr = url.split(".");
     let extention = tempArr[tempArr.length - 1];
     const imageAccept = ["png", "jpeg", "webp", "heic", "heif"];
     const audioAccept = ["wav", "mp3", "aiff", "aac", "ogg", "flac"];
