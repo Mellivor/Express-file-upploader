@@ -58,6 +58,8 @@ const resend = async (req, res) => {
         fs.appendFileSync(`/tmp/${file_name}.${extention}`, file);
         // const data = fs.readFileSync(`/tmp/${file_name}.${extention}`, { encoding: 'utf8', flag: 'r' });
 
+        const fileManager = new GoogleAIFileManager(API_key);
+
         const uploadResponse = await fileManager.uploadFile(`/tmp/${file_name}.${extention}`, {
             mimeType: `${fileType}/`,
             displayName: `${file_name}.${extention}`,
