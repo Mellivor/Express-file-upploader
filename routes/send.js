@@ -3,10 +3,13 @@ const router = express.Router();
 
 const {
     resend,
-    response
+    response,
+    resendFetch
 } = require('../controllers/postControllers');
 
 router.get("/url", response);
+
+router.post("/urlf", resendFetch);
 
 router.post("/url", resend);
 
