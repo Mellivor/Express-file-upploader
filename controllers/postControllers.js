@@ -138,7 +138,7 @@ const resendFetch = async (req, res) => {
 
         const final = await googleResponse.json()
 
-        res.status(200).json({ uploaded_file: JSON.stringify(final) })
+        res.status(200).json({ uploaded_file: JSON.stringify(final.file) })
 
 
     } catch (error) {
