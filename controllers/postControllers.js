@@ -60,7 +60,7 @@ const resend = async (req, res) => {
         const fileManager = new GoogleAIFileManager(API_key);
 
         const uploadResponse = await fileManager.uploadFile(`/tmp/${file_name}.${extention}`, {
-            mimeType: `${fileType}/`,
+            mimeType: `${fileType}/${extention}`,
             displayName: `${file_name}.${extention}`,
         });
         res.status(200).json({ uploaded_file: JSON.stringify(uploadResponse) })
