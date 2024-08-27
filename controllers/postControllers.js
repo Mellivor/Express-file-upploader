@@ -100,7 +100,6 @@ const resendFetch = async (req, res) => {
         "mpg", "webm", "wmv", "3gpp"];
 
     if (!fileAccept.includes(extention)) {
-        fileType = "image";
         res.status(400).json({ error: `"${extention.toUpperCase()}" extention not suported` });
     };
 
@@ -113,7 +112,7 @@ const resendFetch = async (req, res) => {
         };
 
         const blob = await response.blob();
-        const file = new File([blob], 'downloaded-file.ext', { type: blob.type });
+        const file = new File([blob], `${file_name}.${extention}`, { type: blob.type });
 
         const googleResponse = await fetch(`https://generativelanguage.googleapis.com/upload/v1beta/files?key=${API_key}`, {
             body: { file: file },
