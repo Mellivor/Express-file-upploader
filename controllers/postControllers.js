@@ -63,7 +63,7 @@ const resend = async (req, res) => {
             mimeType: `${fileType}/${extention}`,
             displayName: `${file_name}.${extention}`,
         });
-        res.status(200).json({ uploaded_file: JSON.stringify(uploadResponse) })
+        res.status(200).json({ uploaded_file: JSON.stringify(uploadResponse.file) })
 
 
     } catch (error) {
