@@ -93,11 +93,7 @@ const resendFetch = async (req, res) => {
 
     const tempArr = url.split(".");
     let extention = tempArr[tempArr.length - 1];
-    const fileAccept = ["png", "jpeg", "jpg", "webp", "heic",
-        "heif", "wav", "mp3", "aiff",
-        "aac", "ogg", "flac", "mp4",
-        "mpeg", "mov", "avi", "x-flv",
-        "mpg", "webm", "wmv", "3gpp"];
+    const fileAccept = ["pdf", "png", "jpeg", "jpg", "webp", "heic","heif", "wav", "mp3", "aiff","aac", "ogg", "flac", "mp4", "mpeg", "mov", "avi", "x-flv", "mpg", "webm", "wmv", "3gpp"];
 
     if (!fileAccept.includes(extention)) {
         res.status(400).json({ error: `"${extention.toUpperCase()}" extention not suported` });
