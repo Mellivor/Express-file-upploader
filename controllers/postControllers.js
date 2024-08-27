@@ -39,6 +39,10 @@ const resend = async (req, res) => {
     if (videoAccept.includes(extention)) {
         fileType = "video";
     };
+    if (extention === "AVI") {
+        extention = "avi"
+        fileType = "application";
+    };
 
     if (!fileType) {
         res.status(400).json({ error: `"${extention.toUpperCase()}" extention not suported` });
@@ -89,29 +93,14 @@ const resendFetch = async (req, res) => {
 
     const tempArr = url.split(".");
     let extention = tempArr[tempArr.length - 1];
-    const imageAccept = ["png", "jpeg", "webp", "heic", "heif"];
-    const audioAccept = ["wav", "mp3", "aiff", "aac", "ogg", "flac"];
-    const videoAccept = ["mp4", "mpeg", "mov", "avi", "x-flv", "mpg", "webm", "wmv", "3gpp"];
+    const fileAccept = ["png", "jpeg", "jpg", "webp", "heic",
+        "heif", "wav", "mp3", "aiff",
+        "aac", "ogg", "flac", "mp4",
+        "mpeg", "mov", "avi", "x-flv",
+        "mpg", "webm", "wmv", "3gpp"];
 
-    let fileType;
-    if (extention === "jpg") {
-        extention = "jpeg";
-    };
-    if (imageAccept.includes(extention)) {
+    if (!fileAccept.includes(extention)) {
         fileType = "image";
-    };
-    if (extention === "pdf") {
-        fileType = "application";
-    };
-    if (audioAccept.includes(extention)) {
-        fileType = "audio";
-    };
-
-    if (videoAccept.includes(extention)) {
-        fileType = "video";
-    };
-
-    if (!fileType) {
         res.status(400).json({ error: `"${extention.toUpperCase()}" extention not suported` });
     };
 
@@ -139,7 +128,6 @@ const resendFetch = async (req, res) => {
         const final = await googleResponse.json()
 
         res.status(200).json({ uploaded_file: JSON.stringify(final.file) })
-
 
     } catch (error) {
         res.status(400).json({ error: error.message })
