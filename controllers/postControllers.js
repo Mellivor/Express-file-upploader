@@ -123,10 +123,11 @@ const resendFetch = async (req, res) => {
             throw new Error(error);
         };
 
-        const file = await response.formData();
+        const blob = await response.blob();
+        const file = new File([blob], 'downloaded-file.ext', { type: blob.type });
 
         const googleResponse = await fetch(`https://generativelanguage.googleapis.com/upload/v1beta/files?key=${API_key}`, {
-            body: file,
+            body: { file: file },
             method: "post"
         });
 
