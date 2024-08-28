@@ -1,3 +1,6 @@
+const fs = require('fs');
+const { GoogleAIFileManager } = require("@google/generative-ai/server");
+
 const resendFetch = async (req, res) => {
     const { url, API_key, file_name } = req.body
 
@@ -15,9 +18,33 @@ const resendFetch = async (req, res) => {
 
     const tempArr = url.split(".");
     let extention = tempArr[tempArr.length - 1];
-    const fileAccept = ["pdf", "png", "jpeg", "jpg", "webp", "heic", "heif", "wav", "mp3", "aiff", "aac", "ogg", "flac", "mp4", "mpeg", "mov", "avi", "AVI", "x-flv", "mpg", "webm", "wmv", "3gpp"];
+    const imageAccept = ["png", "jpeg", "webp", "heic", "heif"];
+    const audioAccept = ["wav", "mp3", "aiff", "aac", "ogg", "flac"];
+    const videoAccept = ["mp4", "mpeg", "mov", "avi", "x-flv", "mpg", "webm", "wmv", "3gpp"];
 
-    if (!fileAccept.includes(extention)) {
+    let fileType;
+    if (extention === "jpg") {
+        extention = "jpeg";
+    };
+    if (imageAccept.includes(extention)) {
+        fileType = "image";
+    };
+    if (extention === "pdf") {
+        fileType = "application";
+    };
+    if (audioAccept.includes(extention)) {
+        fileType = "audio";
+    };
+
+    if (videoAccept.includes(extention)) {
+        fileType = "video";
+    };
+    if (extention === "AVI") {
+        extention = "avi"
+        fileType = "application";
+    };
+
+    if (!fileType) {
         res.status(400).json({ error: `"${extention.toUpperCase()}" extention not suported` });
     };
 
@@ -29,25 +56,19 @@ const resendFetch = async (req, res) => {
             throw new Error(error);
         };
 
-        const blob = await response.blob();
-        const file = new File([blob], `${file_name}.${extention}`, { type: blob.type });
+        const bufferArr = await response.arrayBuffer();
+        const file = Buffer.from(bufferArr);
 
-        const formData = new FormData();
-        formData.append("file", file);
+        fs.appendFileSync(`/tmp/${file_name}.${extention}`, file);
 
-        const googleResponse = await fetch(`https://generativelanguage.googleapis.com/upload/v1beta/files?key=${API_key}`, {
-            body: formData,
-            method: "post"
+        const fileManager = new GoogleAIFileManager(API_key);
+
+        const uploadResponse = await fileManager.uploadFile(`/tmp/${file_name}.${extention}`, {
+            mimeType: `${fileType}/${extention}`,
+            displayName: `${file_name}.${extention}`,
         });
+        res.status(200).json({ uploaded_file: JSON.stringify(uploadResponse.file) })
 
-        if (!googleResponse.ok) {
-            const error = googleResponse.json();
-            throw new Error(error);
-        };
-
-        const final = await googleResponse.json()
-
-        res.status(200).json({ uploaded_file: JSON.stringify(final.file) })
 
     } catch (error) {
         res.status(400).json({ error: error.message })
