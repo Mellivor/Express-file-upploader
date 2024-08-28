@@ -30,10 +30,6 @@ app.use(express.json())
 
 app.use("/send/", send);
 
-app.get('/', (req, res) => {
-    res.send('Hello World!33')
-})
-
 app.listen(port, '0.0.0.0', () => {
     console.log(`Example app listening on port ${port}`)
 })

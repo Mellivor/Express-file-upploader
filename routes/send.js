@@ -1,16 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const resendFetch = require('../controllers/postControllers');
 
-const {
-    resend,
-    response,
-    resendFetch
-} = require('../controllers/postControllers');
-
-router.get("/url", response);
-
-router.post("/urlf", resendFetch);
-
-router.post("/url", resend);
+router.post("/url", resendFetch);
 
 module.exports = router;
