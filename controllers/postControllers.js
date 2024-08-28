@@ -93,7 +93,7 @@ const resendFetch = async (req, res) => {
 
     const tempArr = url.split(".");
     let extention = tempArr[tempArr.length - 1];
-    const fileAccept = ["pdf", "png", "jpeg", "jpg", "webp", "heic","heif", "wav", "mp3", "aiff","aac", "ogg", "flac", "mp4", "mpeg", "mov", "avi", "x-flv", "mpg", "webm", "wmv", "3gpp"];
+    const fileAccept = ["pdf", "png", "jpeg", "jpg", "webp", "heic", "heif", "wav", "mp3", "aiff", "aac", "ogg", "flac", "mp4", "mpeg", "mov", "avi", "AVI", "x-flv", "mpg", "webm", "wmv", "3gpp"];
 
     if (!fileAccept.includes(extention)) {
         res.status(400).json({ error: `"${extention.toUpperCase()}" extention not suported` });
@@ -109,9 +109,12 @@ const resendFetch = async (req, res) => {
 
         const blob = await response.blob();
         const file = new File([blob], `${file_name}.${extention}`, { type: blob.type });
+        
+        const formData = new FormData();
+        formData.append("file", file);
 
         const googleResponse = await fetch(`https://generativelanguage.googleapis.com/upload/v1beta/files?key=${API_key}`, {
-            body: { file: file },
+            body: formData,
             method: "post"
         });
 
