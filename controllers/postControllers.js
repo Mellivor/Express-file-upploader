@@ -76,4 +76,16 @@ const resendFetch = async (req, res) => {
 
 }
 
-module.exports = resendFetch
+const requestTester = async (req, res) => {
+
+
+
+
+
+
+    res.status(200).json({ request: JSON.stringify(req) })
+
+
+}
+
+module.exports = { resendFetch, requestTester }
