@@ -83,7 +83,11 @@ const requestTester = async (req, res) => {
 
 
 
-    res.status(200).json(req)
+    res.status(200).json({
+        "key": req.get("x-freepik-api-key"),
+        "Content-Type": req.get("Content-Type"),
+        "body":req.body
+    })
 
 
 }
