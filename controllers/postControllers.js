@@ -83,7 +83,7 @@ const requestTester = async (req, res) => {
 
 
 
-    res.status(200).json({ request: JSON.stringify(req) })
+    res.status(200).json(req)
 
 
 }
